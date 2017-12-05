@@ -7,11 +7,6 @@ var shape_groups = {
         start:-1,
         end:-1,
         next_index:-1
-    },
-    wreckingBall:{
-        start:-1,
-        end:-1,
-        ball:-1
     }
 }
 

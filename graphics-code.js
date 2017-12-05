@@ -8,8 +8,6 @@ var phongShader = new Shader("phong_vertex_shader", "phong_fragment_shader");
 registerShape('ground',[0.3,0.3,0.3]);
 registerShape('launcher_source',[1,1,1]);
 
-var wrecking_ball = new WreckingBall();
-
 //Projection matrix
 var prj = mat4.create();
 
