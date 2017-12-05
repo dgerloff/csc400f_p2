@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+	<head>
+		<style>	
+			*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, Helvetica, sans-serif;-webkit-user-select:none;-moz-user-select:none;user-select:none;}
+			h1{	
+				font-family: verdana;
+			}
+			.container {
+				position: relative;
+				display:flex;flex-direction:column;
+				align-items:center;
+				width:90%;
+				margin:32px auto;
+			}
+			#controls{
+				width:100%;display:flex;
+				padding:8px;
+				position: fixed;bottom:0;left:0;
+			}
+			#glcanvas{
+				margin:0 auto;
+			}
+			#controls > * + *{
+				margin-left:16px;
+			}
+			#sliders{
+				width:100%;
+				margin-top:16px;
+				justify-content:space-evenly;
+			}
+			.col{
+				display:flex;flex-direction:column;
+			}
+			.row{
+				display:flex;
+			}
+			.row > span:first-of-type{
+				width:100px;
+			}
+			input[type="range"]{
+				width:200px;
+			}
+			.row > * + *{
+				margin-left:8px;
+			}
+		</style>
+	<title>Brick Wall Project</title>
+	</head>
+	<body>
+		<div class="container">
+			<canvas width="1024" height="576" id="glcanvas">
+				Support for the canvas element is required.
+			</canvas>
+
+			<div id="sliders" class="row">
+				<div class="col">
+					<div class="row">
+						<span>Power</span>
+						<input type="range" min="0" max="40" step="1" value="20" id="slider-power" oninput="updateSlider(this.value,'power')" onchange="updateSlider(this.value,'power')"></input>
+						<span id="val-power">20</span>
+					</div>
+					<div class="row">
+						<span>Elevation</span>
+						<input type="range" min="-20" max="20" step="0.1" value="0" id="slider-elevation" oninput="updateSlider(this.value,'elevation')" onchange="updateSlider(this.value,'elevation')"></input>
+						<span id="val-elevation">0.0</span>
+					</div>
+					<div class="row">
+						<span>Azimuth</span>
+						<input type="range" min="-100" max="100" step="0.1" value="0" id="slider-azimuth" oninput="updateSlider(this.value,'azimuth')" onchange="updateSlider(this.value,'azimuth')"></input>
+						<span id="val-azimuth">0.0&deg;</span>
+					</div>
+					<div class="row">
+						<span>WreckingBall</span>
+						<input id="check-wrecking" type="checkbox" onclick="updateSlider(this.checked,'wrecking')">
+					</div>
+				</div>
+				<div class="col">
+					<div class="row" style="justify-content:center;">
+						<span>Wall Distance</span>
+						<input id="val-w_x" type="number" min="5" max="35" step="1" value="15">
+					</div>
+					<div class="row" style="justify-content:center;">
+						<span>Wall Width</span>
+						<input id="val-w_width" type="number" min="5" max="25" step="1" value="15">
+					</div>
+					<div class="row" style="justify-content:center;">
+						<span>Wall Height</span>
+						<input id="val-w_height" type="number" min="1" max="25" step="1" value="10">
+					</div>
+					<div class="row" style="justify-content:center;">
+						<button onclick="updateSlider(null,'wall')">Resize Wall</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="sliders.js"></script>
+
+		<script src='lib\gl-matrix-min.js'></script>
+		<script src="lib\oimo.min.js"></script>
+		<script src="lib\p1utilities.js"></script>
+		<script src="lib\Helpers.js"></script>
+		<script src="lib\Camera.js"></script>
+
+		<script src="Classes\Material.js"></script>
+		<script src="Classes\Shape.js"></script>
+		<script src="Classes\Cube.js"></script>
+		<script src="Classes\WreckingBall.js"></script>
+
+		<script src="ShaderPool.js"></script>
+		<script src="Shader.js"></script>
+
+		<script src="oimo-graphics-helper.js"></script>
+		<script src="graphics-code.js"></script>
+		<script src="oimo-code.js"></script>
+
+	</body>
+</html>
