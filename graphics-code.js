@@ -5,7 +5,7 @@ var colorfulShader = new Shader("colorful_vertex_shader", "colorful_fragment_sha
 var solidShader = new Shader("solid_vertex_shader", "solid_fragment_shader");
 var phongShader = new Shader("phong_vertex_shader", "phong_fragment_shader");
 
-registerShape('ground',[0.3,0.3,0.3]);
+
 registerShape('launcher_source',[1,1,1]);
 
 //Projection matrix
@@ -23,7 +23,7 @@ function Draw(now) {
 
     now = now / 1000.0;
 
-    mat4.perspective(prj, Radians(90.0), canvas.width / canvas.height, 0.5, 100.0);
+    mat4.perspective(prj, Radians(90.0), canvas.width / canvas.height, 0.5, 500.0);
 
     var mdv = mat4.create();
     mat4.lookAt(mdv, [camera["current"]["x"],camera["current"]["y"],camera["current"]["z"]],
@@ -37,7 +37,7 @@ function Draw(now) {
     mat4.multiply(mdv, mdv, camera["rotation"]); 
 
     //necessary for phong_shader:
-    var light_position = [0,5,0,1];
+    var light_position = [-350,150,0,1];
     var normal_matrix = mat3.create();
     mat3.normalFromMat4(normal_matrix, mdv);
 

@@ -10,7 +10,6 @@ var shape_groups = {
     }
 }
 
-
 var world = new OIMO.World({
     timestep: 1 / 60,//simulation time per step. Smaller #'s are "finer", e.g 1/1000
     iterations: 8,//Solvers for joints
@@ -21,11 +20,53 @@ var world = new OIMO.World({
     gravity: [0, -9.8, 0]//Setup the forces of gravity on XYZ; -9.8 on Y simulates Earth's Gravity (when `worldscale` is 1.0)
 });
 
+//Build the ground/platform/water/etc
 (function (){
+    registerShape('platform',[0.3,0.3,0.3]);
     var o_ground = world.add({
         type: 'box', // type of shape : sphere, box, cylinder 
-        size: [70, 2, 70], // size of shape
-        pos: [0, 0, 0], // start position in degree
+        size: [98, 4, 98], // size of shape
+        pos: [49, 0, 0], // start position in degree
+        move: false, // dynamic or static
+        density: 1,
+        friction: 1,
+        restitution: 0.9,
+        belongsTo:1 << 0
+    });
+    attachOimoObjectToShape('platform',o_ground);
+
+    //IMPORTANT: This has `belongTo: 1<<1`, so it won't collide like the ground
+    registerShape('water',[0,0.2,0.5]);
+    var o_ground = world.add({
+        type: 'box', // type of shape : sphere, box, cylinder 
+        size: [160, 4, 180], // size of shape
+        pos: [20, -3, 0], // start position in degree
+        move: false, // dynamic or static
+        density: 1,
+        friction: 1,
+        restitution: 0.9,
+        belongsTo:1 << 1
+    });
+    attachOimoObjectToShape('water',o_ground);
+
+    registerShape('bridge',[0.545,0.35,0.17]);
+    var o_ground = world.add({
+        type: 'box', // type of shape : sphere, box, cylinder 
+        size: [40, 2, 10], // size of shape
+        pos: [-20, 0, 0], // start position in degree
+        move: false, // dynamic or static
+        density: 1,
+        friction: 1,
+        restitution: 0.9,
+        belongsTo:1 << 0
+    });
+    attachOimoObjectToShape('bridge',o_ground);
+
+    registerShape('ground',[0,0.3,0]);
+    var o_ground = world.add({
+        type: 'box', // type of shape : sphere, box, cylinder 
+        size: [100,2,180], // size of shape
+        pos: [-90, 0, 0], // start position in degree
         move: false, // dynamic or static
         density: 1,
         friction: 1,
@@ -33,10 +74,36 @@ var world = new OIMO.World({
         belongsTo:1 << 0
     });
     attachOimoObjectToShape('ground',o_ground);
+
+    registerShape('ground2',[0,0.3,0]);
+    var o_ground = world.add({
+        type: 'box', // type of shape : sphere, box, cylinder 
+        size: [240,2,100], // size of shape
+        pos: [-20, 0, 140], // start position in degree
+        move: false, // dynamic or static
+        density: 1,
+        friction: 1,
+        restitution: 0.9,
+        belongsTo:1 << 0
+    });
+    attachOimoObjectToShape('ground2',o_ground);
+
+    registerShape('ground3',[0,0.3,0]);
+    var o_ground = world.add({
+        type: 'box', // type of shape : sphere, box, cylinder 
+        size: [240,2,100], // size of shape
+        pos: [-20, 0, -140], // start position in degree
+        move: false, // dynamic or static
+        density: 1,
+        friction: 1,
+        restitution: 0.9,
+        belongsTo:1 << 0
+    });
+    attachOimoObjectToShape('ground3',o_ground);
 })();
 
 (function (){
-    var pos = [-10,15,0];
+    var pos = [-95,15,0];
     var src = world.add({
         type: 'box', // type of shape : sphere, box, cylinder 
         size: [0.5,0.5,0.5], // size of shape
@@ -84,7 +151,7 @@ function setup_projectiles(projectile_count,projectile_size){
 
 function launchProjectile(){
     var proj = shapes[shape_groups["projectiles"]["next_index"]].oimo;
-    proj.resetPosition(-10,15,0);
+    proj.resetPosition(-95,15,0);
     proj.resetRotation(45,0,0);
     proj.linearVelocity.x = launcher_power;
     proj.linearVelocity.y = launcher_elevation;
@@ -113,7 +180,7 @@ setup_wall([15,1,0]);
 function setup_wall(origin,_width = 15,_height = 10){
     removeWall(); //Safe to call on first `setup_wall`, as it checks to see if the wall even exists via `shape_groups`
     shape_groups["bricks"]["start"] = shapes.length;
-    var brick_size = 3;
+    var brick_size = 4;
     var brick_radius = brick_size/2;
     var wall_length = _width;
     var wall_height = _height;
