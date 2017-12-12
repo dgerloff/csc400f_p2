@@ -225,10 +225,13 @@ function setup_wall(origin,_width = 15,_height = 10){
     shape_groups["bricks"]["end"] = shapes.length;
 }
 function removeWall(){
+	//debugger;
     if(shape_groups["bricks"]["start"] !== -1 || shape_groups["bricks"]["end"] !== -1){
         //wall already init'd, clear
         for(var i=shape_groups["bricks"]["start"];i<shape_groups["bricks"]["end"];i++){
-            world.removeRigidBody(shapes[i].oimo);
+            world.removeRigidBody(shapes[i]);
+            world.step();
+            console.log(world.numRigidBodies)
             shapes[i].oimo = null;
         }
         var diff = shape_groups["bricks"]["end"] - shape_groups['bricks']['start'];
@@ -236,11 +239,6 @@ function removeWall(){
         if(shape_groups['projectiles']['start'] - shape_groups['bricks']['start'] > 0){
             for (var key in shape_groups["projectiles"]) {
                 shape_groups["projectiles"][key] -= diff;
-            }
-        }
-        if(shape_groups['wreckingBall']['start'] - shape_groups['bricks']['start'] > 0){
-            for (var key in shape_groups["wreckingBall"]) {
-                shape_groups["wreckingBall"][key] -= diff;
             }
         }
         shape_groups["bricks"]["start"] = -1;
